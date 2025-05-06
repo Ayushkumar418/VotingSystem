@@ -15,7 +15,9 @@ $stmt = $conn->query("
     SELECT 
         e.*,
         COUNT(DISTINCT v.id) as total_votes,
-        COUNT(DISTINCT v.user_id) as total_voters,
+        (SELECT COUNT(DISTINCT user_id) 
+         FROM votes 
+         WHERE election_id = e.id) as total_voters,
         CASE 
             WHEN NOW() > end_date THEN 'ended'
             WHEN NOW() BETWEEN start_date AND end_date AND e.is_active = true THEN 'active'

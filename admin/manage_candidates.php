@@ -160,6 +160,43 @@ $candidates = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
+    <!-- Add Edit Candidate Modal -->
+    <div class="modal fade" id="editCandidateModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Candidate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="process_candidate.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" id="edit_id">
+                    <input type="hidden" name="election_id" id="edit_election_id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Name</label>
+                            <input type="text" name="name" id="edit_name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Description</label>
+                            <textarea name="description" id="edit_description" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>Current Photo</label>
+                            <div id="current_photo"></div>
+                            <label>New Photo (leave empty to keep current)</label>
+                            <input type="file" name="photo" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Candidate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     function deleteCandidate(id) {
@@ -169,8 +206,29 @@ $candidates = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     function editCandidate(id) {
-        // Redirect to edit page
-        window.location.href = 'edit_candidate.php?id=' + id;
+        fetch('edit_candidate.php?id=' + id)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('edit_id').value = data.id;
+                document.getElementById('edit_election_id').value = data.election_id;
+                document.getElementById('edit_name').value = data.name;
+                document.getElementById('edit_description').value = data.description;
+                
+                // Handle photo display
+                const photoDiv = document.getElementById('current_photo');
+                if (data.photo_url) {
+                    photoDiv.innerHTML = `<img src="../uploads/${data.photo_url}" class="candidate-photo mb-2">`;
+                } else {
+                    photoDiv.innerHTML = '<i class="fas fa-user-circle fa-2x mb-2"></i>';
+                }
+                
+                // Show modal
+                new bootstrap.Modal(document.getElementById('editCandidateModal')).show();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to load candidate data');
+            });
     }
     </script>
 </body>

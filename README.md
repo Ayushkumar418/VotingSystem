@@ -87,6 +87,21 @@ Password: admin123
 
 ---
 
+### 6️⃣ Verify Installation
+
+To check if everything is set up correctly:
+
+1. Visit [http://localhost/VotingSystem/install.php](http://localhost/VotingSystem/install.php)
+2. This will show you:
+   * ✅ PHP Version compatibility
+   * ✅ MySQL connection status
+   * ✅ Required directory permissions
+   * ✅ Required PHP extensions
+
+If you see any ❌ errors, fix them before using the system.
+
+---
+
 ## 🔥 Key Features
 
 * 👥 Voter Registration & Login

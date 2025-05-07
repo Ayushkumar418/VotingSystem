@@ -149,4 +149,4 @@ Cool! Here's how:
 
 ---
 
-Made with ❤️ by [Ayush Kumar](https://github.com/Ayushkumar418)
+Made with ❤️ by [**Ayush Kumar**](https://github.com/Ayushkumar418)

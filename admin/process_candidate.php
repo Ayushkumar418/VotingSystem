@@ -1,6 +1,7 @@
 <?php
 require_once '../config/database.php';
 require_once '../includes/auth.php';
+require_once '../includes/functions.php';
 
 if (!is_logged_in() || !is_admin()) {
     header('Location: ../index.php');
